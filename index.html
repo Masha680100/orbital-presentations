@@ -49,7 +49,6 @@
         radial-gradient(circle at 90% 80%, rgba(0, 242, 254, 0.12) 0%, transparent 40%);
     }
 
-    /* ================= ШАПКА И ПРОГРЕСС-БАР ================= */
     .app-container {
       width: 100%;
       max-width: 920px;
@@ -207,7 +206,7 @@
       line-height: 1.35;
     }
 
-    /* ================= ШАГ 2: ВЫБОР ГЛАВНОЙ БОЛИ ================= */
+    /* ================= ШАГ 2: ВЫБОР БОЛИ ================= */
     .pain-list {
       display: flex;
       flex-direction: column;
@@ -252,7 +251,7 @@
       color: var(--muted);
     }
 
-    /* ================= ШАГ 3: ИНТЕРАКТИВНЫЙ СИМУЛЯТОР ЧАТА ================= */
+    /* ================= ШАГ 3: ИНТЕРАКТИВНЫЙ ЧАТ ================= */
     .chat-wrapper {
       background: #090d16;
       border: 1px solid var(--card-border);
@@ -373,14 +372,14 @@
       box-shadow: 0 0 30px var(--pink-glow);
     }
 
-    /* ================= ШАГ 4: ФИНАЛЬНЫЙ ОФФЕР И РАСЧЕТ ================= */
+    /* ================= ШАГ 4: ФИНАЛЬНЫЙ ОФФЕР И ЛИДОГЕНЕРАЦИЯ ================= */
     .roi-card {
       background: rgba(0, 255, 136, 0.05);
       border: 1px solid var(--green);
       border-radius: 20px;
       padding: 24px;
       text-align: center;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       box-shadow: 0 0 30px rgba(0, 255, 136, 0.15);
     }
 
@@ -409,23 +408,14 @@
       margin-top: 10px;
     }
 
-    .roi-stat-val {
-      font-size: 18px;
-      font-weight: 800;
-      color: #fff;
-    }
+    .roi-stat-val { font-size: 18px; font-weight: 800; color: #fff; }
+    .roi-stat-lbl { font-size: 12px; color: var(--muted); }
 
-    .roi-stat-lbl {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    /* Ползунки */
     .sliders-box {
       display: flex;
       flex-direction: column;
       gap: 16px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     .slider-group {
@@ -466,53 +456,59 @@
       cursor: pointer;
     }
 
-    /* Кнопки вызова действия */
-    .cta-group {
+    /* ФОРМА ВВОДА КОНТАКТА */
+    .lead-form-box {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, var(--cyan) 0%, #0088ff 100%);
-      color: #020813;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 18px;
-      font-weight: 900;
-      padding: 20px;
-      border-radius: 50px;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      text-align: center;
-      box-shadow: 0 0 35px var(--cyan-glow);
-      transition: all 0.25s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px) scale(1.01);
-      box-shadow: 0 0 50px var(--cyan-glow);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 0, 85, 0.12);
-      color: #fff;
-      border: 1px solid var(--pink);
+    .lead-input {
+      width: 100%;
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(0, 242, 254, 0.3);
       padding: 16px;
-      border-radius: 50px;
-      font-weight: 700;
+      border-radius: 12px;
+      color: #fff;
       font-size: 15px;
-      text-decoration: none;
-      text-align: center;
+      outline: none;
       transition: all 0.2s;
     }
 
-    .btn-secondary:hover {
-      background: rgba(255, 0, 85, 0.25);
+    .lead-input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px var(--cyan-glow);
+    }
+
+    .btn-submit-lead {
+      background: linear-gradient(135deg, var(--cyan) 0%, #0088ff 100%);
+      color: #020813;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 17px;
+      font-weight: 900;
+      padding: 18px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 30px var(--cyan-glow);
+      transition: all 0.25s ease;
+      width: 100%;
+    }
+
+    .btn-submit-lead:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 45px var(--cyan-glow);
+    }
+
+    .btn-submit-lead:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .urgency-badge {
@@ -529,19 +525,30 @@
       margin: 0 auto 16px auto;
     }
 
-    /* Адаптив */
+    .success-message {
+      display: none;
+      background: rgba(0, 255, 136, 0.15);
+      border: 1px solid var(--green);
+      color: var(--green);
+      padding: 16px;
+      border-radius: 14px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 15px;
+      animation: fadeIn 0.3s forwards;
+    }
+
     @media (max-width: 600px) {
       .screen { padding: 24px 18px; }
       .screen-title { font-size: 24px; }
       .roi-amount { font-size: 32px; }
-      .btn-primary { font-size: 15px; padding: 16px; }
+      .btn-submit-lead { font-size: 14px; padding: 15px; }
     }
   </style>
 </head>
 <body>
 
   <div class="app-container">
-    <!-- Хедер -->
     <header>
       <div class="brand">
         <svg class="brand-logo" viewBox="0 0 100 100">
@@ -585,7 +592,7 @@
       </div>
     </div>
 
-    <!-- ЭКРАН 2: ВЫБОР ГЛАВНОЙ БОЛИ -->
+    <!-- ЭКРАН 2: ВЫБОР БОЛИ -->
     <div class="screen" id="screen-2">
       <h2 class="screen-title">Какую задачу <span>поручим боту?</span></h2>
       <p class="screen-subtitle">Шаг 2 из 3: Выберите главную проблему вашей операционки</p>
@@ -617,7 +624,7 @@
       </div>
     </div>
 
-    <!-- ЭКРАН 3: ЖИВОЙ СИМУЛЯТОР ДИАЛОГА -->
+    <!-- ЭКРАН 3: ЖИВОЙ СИМУЛЯТОР -->
     <div class="screen" id="screen-3">
       <h2 class="screen-title">Тест-драйв: <span>Смотрите бота в деле</span></h2>
       <p class="screen-subtitle">Шаг 3 из 3: Время 02:40 ночи. Клиент пишет в ваш чат...</p>
@@ -631,9 +638,7 @@
           </div>
         </div>
 
-        <div class="chat-box" id="chat-box">
-          <!-- Сообщения будут генерироваться скриптом -->
-        </div>
+        <div class="chat-box" id="chat-box"></div>
       </div>
 
       <button class="chat-action-btn" id="sim-btn" onclick="runSimulationNext()">
@@ -641,7 +646,7 @@
       </button>
     </div>
 
-    <!-- ЭКРАН 4: ГОТОВАЯ КОНФИГУРАЦИЯ И ОКУПАЕМОСТЬ -->
+    <!-- ЭКРАН 4: ФИНАЛ + ФОРМА ОТПРАВКИ В TELEGRAM -->
     <div class="screen" id="screen-4">
       <div style="text-align: center;">
         <div class="urgency-badge">🔥 КОНФИГУРАЦИЯ СОБРАНА И ГОТОВА К ВНЕДРЕНИЮ</div>
@@ -669,7 +674,6 @@
         </div>
       </div>
 
-      <!-- Ползунки параметров -->
       <div class="sliders-box">
         <div class="slider-group">
           <div class="slider-header">
@@ -688,20 +692,21 @@
         </div>
       </div>
 
-      <!-- Призыв к действию -->
-      <div class="cta-group">
-        <a href="https://t.me/upravKAN_bot" target="_blank" class="btn-primary">
+      <!-- Форма сборок лидов напрямую в Telegram -->
+      <form class="lead-form-box" id="lead-form" onsubmit="submitLeadToTelegram(event)">
+        <input type="text" id="user-contact" class="lead-input" placeholder="Ваш Telegram (@username) или Телефон" required>
+        <button type="submit" class="btn-submit-lead" id="submit-btn">
           🚀 Забрать готовое решение в Telegram
-        </a>
-        <a href="https://t.me/order_bots_ai" target="_blank" class="btn-secondary">
-          💬 Получить бесплатный разбор с инженером
-        </a>
+        </button>
+      </form>
+
+      <div class="success-message" id="success-msg">
+        ✅ Спасибо! Конфигурация сформирована и отправлена инженеру. Мы свяжемся с вами в Telegram в течение 5 минут!
       </div>
     </div>
   </div>
 
   <script>
-    /* ================= ЛОГИКА ИНТЕРАКТИВНОГО СИМУЛЯТОРА ================= */
     let userChoice = {
       niche: '',
       nicheName: '',
@@ -716,7 +721,7 @@
       document.getElementById(screenId).classList.add('active');
     }
 
-    function updateProgress(percent, label) {
+    function updateProgress(percent) {
       document.getElementById('progress-bar').style.width = percent + '%';
       document.getElementById('progress-text').textContent = 'Сборка: ' + percent + '%';
     }
@@ -736,7 +741,6 @@
       goToScreen('screen-3');
     }
 
-    /* === СИМУЛЯТОР ДИАЛОГА === */
     function initChatSimulation() {
       const chatBox = document.getElementById('chat-box');
       chatBox.innerHTML = '';
@@ -749,7 +753,6 @@
         clientMsgText = "Здравствуйте. Нужен расчет стоимости проекта. Сколько стоит внедрение?";
       }
 
-      // Первое сообщение клиента
       setTimeout(() => {
         appendMessage('client', clientMsgText, '02:41');
       }, 400);
@@ -800,7 +803,6 @@
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    /* === ДИНАМИЧЕСКИЙ КАЛЬКУЛЯТОР === */
     function recalculateROI() {
       const leads = parseInt(document.getElementById('leads-range').value, 10);
       const price = parseInt(document.getElementById('price-range').value, 10);
@@ -808,13 +810,53 @@
       document.getElementById('leads-val').textContent = leads.toLocaleString('ru-RU');
       document.getElementById('price-val').textContent = price.toLocaleString('ru-RU') + ' ₽';
 
-      // Конверсия: спасение порядка 4% от упущенных горячих обращений
       const savedDeals = Math.max(1, Math.round(leads * 0.04));
       const totalSavedRevenue = savedDeals * price;
 
       document.getElementById('calc-display-amount').textContent = '+' + totalSavedRevenue.toLocaleString('ru-RU') + ' ₽';
       document.getElementById('calc-result').textContent = totalSavedRevenue.toLocaleString('ru-RU');
       document.getElementById('stat-deals').textContent = '+' + savedDeals + ' шт';
+    }
+
+    /* === ОТПРАВКА ДАННЫХ КВИЗА НА NETLIFY FUNCTION === */
+    async function submitLeadToTelegram(event) {
+      event.preventDefault();
+
+      const contact = document.getElementById('user-contact').value.trim();
+      const submitBtn = document.getElementById('submit-btn');
+
+      if (!contact) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = '⏳ Отправка заявки...';
+
+      const payload = {
+        niche: userChoice.nicheName,
+        pain: userChoice.painName,
+        leads: document.getElementById('leads-range').value,
+        price: document.getElementById('price-range').value,
+        roi: document.getElementById('calc-display-amount').textContent,
+        contact: contact
+      };
+
+      try {
+        const response = await fetch('/.netlify/functions/send-lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          document.getElementById('lead-form').style.display = 'none';
+          document.getElementById('success-msg').style.display = 'block';
+        } else {
+          throw new Error('Ошибка сети');
+        }
+      } catch (err) {
+        alert('Произошла ошибка при отправке. Пожалуйста, напишите нам напрямую в Telegram: @upravKAN_bot');
+        submitBtn.disabled = false;
+        submitBtn.textContent = '🚀 Забрать готовое решение в Telegram';
+      }
     }
   </script>
 </body>
