@@ -1,250 +1,821 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>OrbitAL CYBER F // AI Presentation</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #090d16;
-            --card: #111827;
-            --border: #1f2937;
-            --accent: #3b82f6;
-            --cyan: #06b6d4;
-            --danger: #ef4444;
-            --success: #10b981;
-            --text: #f3f4f6;
-            --muted: #9ca3af;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORBITAL CYBER FR | Симулятор ИИ-Бота для Бизнеса</title>
+  
+  <!-- Подключение шрифтов -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+  <style>
+    /* ================= СБРОС И ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ================= */
+    :root {
+      --bg: #030712;
+      --card-bg: rgba(11, 19, 41, 0.75);
+      --card-border: rgba(0, 242, 254, 0.22);
+      --cyan: #00f2fe;
+      --cyan-glow: rgba(0, 242, 254, 0.4);
+      --pink: #ff0055;
+      --pink-glow: rgba(255, 0, 85, 0.4);
+      --green: #00ff88;
+      --green-glow: rgba(0, 255, 136, 0.4);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
 
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            background-image: radial-gradient(circle at 50% 0%, rgba(6, 182, 212, 0.12) 0%, transparent 60%);
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
 
-        /* Top Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            background: rgba(17, 24, 39, 0.8);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-        }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 15px;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 0, 85, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 242, 254, 0.12) 0%, transparent 40%);
+    }
 
-        .brand-title { font-size: 14px; font-weight: 800; letter-spacing: 0.5px; }
-        .brand-sub { font-size: 10px; color: var(--cyan); font-family: 'JetBrains Mono', monospace; }
+    /* ================= ШАПКА И ПРОГРЕСС-БАР ================= */
+    .app-container {
+      width: 100%;
+      max-width: 920px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
 
-        .status-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11px;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--success);
-            background: rgba(16, 185, 129, 0.1);
-            padding: 4px 10px;
-            border-radius: 20px;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding: 0 10px;
+    }
 
-        .pulse { width: 6px; height: 6px; background: var(--success); border-radius: 50%; box-shadow: 0 0 8px var(--success); }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-        /* Comparison Section */
-        .section-title { font-size: 12px; text-transform: uppercase; color: var(--muted); font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; }
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      filter: drop-shadow(0 0 10px var(--cyan));
+    }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .brand-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      color: var(--cyan);
+    }
 
-        .compare-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+    .brand-title span {
+      color: var(--pink);
+    }
 
-        .compare-card.bad { border-color: rgba(239, 68, 68, 0.3); background: linear-gradient(180deg, rgba(239, 68, 68, 0.05) 0%, var(--card) 100%); }
-        .compare-card.good { border-color: rgba(6, 182, 212, 0.3); background: linear-gradient(180deg, rgba(6, 182, 212, 0.05) 0%, var(--card) 100%); }
+    .progress-box {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
 
-        .card-head { font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
-        .card-head.bad { color: var(--danger); }
-        .card-head.good { color: var(--cyan); }
+    .progress-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
 
-        .compare-list { list-style: none; font-size: 11px; color: #d1d5db; display: flex; flex-direction: column; gap: 6px; }
-        .compare-list li { display: flex; align-items: flex-start; gap: 4px; }
+    .progress-track {
+      width: 180px;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 242, 254, 0.2);
+    }
 
-        /* Calculator Section */
-        .calc-box {
-            background: var(--card);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 14px;
-            padding: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-        }
+    .progress-fill {
+      width: 25%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--pink), var(--cyan));
+      border-radius: 20px;
+      transition: width 0.4s ease;
+      box-shadow: 0 0 10px var(--cyan);
+    }
 
-        .calc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .calc-result-title { font-size: 11px; color: var(--muted); }
-        .calc-result-value { font-size: 20px; font-weight: 800; color: var(--danger); font-family: 'JetBrains Mono', monospace; }
+    /* ================= ЭКРАНЫ И КАРТОЧКИ ================= */
+    .screen {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 40px 30px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0, 242, 254, 0.05);
+      display: none;
+      animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
 
-        .slider-container { margin: 16px 0 8px 0; }
-        .slider-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px; font-weight: 600; }
-        
-        input[type=range] {
-            width: 100%;
-            -webkit-appearance: none;
-            appearance: none;
-            background: #1f2937;
-            height: 6px;
-            border-radius: 3px;
-            outline: none;
-        }
+    .screen.active {
+      display: block;
+    }
 
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: var(--cyan);
-            cursor: pointer;
-            box-shadow: 0 0 10px var(--cyan);
-        }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(18px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
 
-        /* Features List */
-        .feature-item {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 10px 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 12px;
-        }
+    .screen-title {
+      font-size: 30px;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
 
-        .feature-icon {
-            width: 28px; height: 28px; background: rgba(59, 130, 246, 0.15);
-            border-radius: 8px; display: flex; align-items: center; justify-content: center;
-            color: var(--accent); font-size: 14px; flex-shrink: 0;
-        }
+    .screen-title span {
+      color: var(--cyan);
+      text-shadow: 0 0 15px var(--cyan-glow);
+    }
 
-        /* CTA Button */
-        .cta-btn {
-            background: linear-gradient(135deg, var(--accent), var(--cyan));
-            color: #fff;
-            text-align: center;
-            padding: 14px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 14px;
-            text-decoration: none;
-            display: block;
-            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
-            letter-spacing: 0.5px;
-            margin-top: 8px;
-        }
+    .screen-subtitle {
+      text-align: center;
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 32px;
+    }
 
-        .cta-btn:active { transform: scale(0.98); }
-    </style>
+    /* ================= ШАГ 1: ВЫБОР НИШИ ================= */
+    .grid-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .option-card {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 24px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+    }
+
+    .option-card:hover {
+      border-color: var(--cyan);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 242, 254, 0.25);
+      background: rgba(0, 242, 254, 0.05);
+    }
+
+    .option-icon {
+      font-size: 40px;
+    }
+
+    .option-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .option-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    /* ================= ШАГ 2: ВЫБОР ГЛАВНОЙ БОЛИ ================= */
+    .pain-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .pain-item {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 0, 85, 0.2);
+      border-radius: 18px;
+      padding: 20px 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      transition: all 0.25s ease;
+    }
+
+    .pain-item:hover {
+      border-color: var(--pink);
+      background: rgba(255, 0, 85, 0.08);
+      transform: translateX(6px);
+      box-shadow: 0 0 20px var(--pink-glow);
+    }
+
+    .pain-badge {
+      font-size: 26px;
+      background: rgba(255, 0, 85, 0.15);
+      padding: 12px;
+      border-radius: 14px;
+    }
+
+    .pain-info h4 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .pain-info p {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ================= ШАГ 3: ИНТЕРАКТИВНЫЙ СИМУЛЯТОР ЧАТА ================= */
+    .chat-wrapper {
+      background: #090d16;
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 20px;
+      max-width: 520px;
+      margin: 0 auto 24px auto;
+      box-shadow: inset 0 0 30px rgba(0,0,0,0.8);
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 16px;
+    }
+
+    .chat-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), #0066ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 18px;
+      box-shadow: 0 0 12px var(--cyan);
+    }
+
+    .chat-user-info h5 {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .chat-status {
+      font-size: 12px;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    .chat-box {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 220px;
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+
+    .msg {
+      max-width: 82%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.4;
+      animation: msgPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes msgPop {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .msg.client {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e2e8f0;
+      border-bottom-left-radius: 4px;
+    }
+
+    .msg.bot {
+      align-self: flex-end;
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(0, 102, 255, 0.2));
+      border: 1px solid var(--cyan);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+    }
+
+    .msg-time {
+      font-size: 10px;
+      opacity: 0.6;
+      margin-top: 4px;
+      text-align: right;
+    }
+
+    .chat-action-btn {
+      width: 100%;
+      background: var(--pink);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 0 20px var(--pink-glow);
+    }
+
+    .chat-action-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 30px var(--pink-glow);
+    }
+
+    /* ================= ШАГ 4: ФИНАЛЬНЫЙ ОФФЕР И РАСЧЕТ ================= */
+    .roi-card {
+      background: rgba(0, 255, 136, 0.05);
+      border: 1px solid var(--green);
+      border-radius: 20px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 28px;
+      box-shadow: 0 0 30px rgba(0, 255, 136, 0.15);
+    }
+
+    .roi-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .roi-amount {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 42px;
+      font-weight: 900;
+      color: var(--green);
+      text-shadow: 0 0 20px var(--green-glow);
+      margin: 10px 0;
+    }
+
+    .roi-details {
+      display: flex;
+      justify-content: space-around;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 14px;
+      margin-top: 10px;
+    }
+
+    .roi-stat-val {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .roi-stat-lbl {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Ползунки */
+    .sliders-box {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .slider-val {
+      color: var(--cyan);
+      font-family: monospace;
+      font-weight: 700;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #1e293b;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+      cursor: pointer;
+    }
+
+    /* Кнопки вызова действия */
+    .cta-group {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan) 0%, #0088ff 100%);
+      color: #020813;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      font-weight: 900;
+      padding: 20px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      box-shadow: 0 0 35px var(--cyan-glow);
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 0 50px var(--cyan-glow);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 0, 85, 0.12);
+      color: #fff;
+      border: 1px solid var(--pink);
+      padding: 16px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 0, 85, 0.25);
+    }
+
+    .urgency-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 0, 85, 0.15);
+      border: 1px solid var(--pink);
+      color: var(--pink);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 30px;
+      margin: 0 auto 16px auto;
+    }
+
+    /* Адаптив */
+    @media (max-width: 600px) {
+      .screen { padding: 24px 18px; }
+      .screen-title { font-size: 24px; }
+      .roi-amount { font-size: 32px; }
+      .btn-primary { font-size: 15px; padding: 16px; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- HEADER -->
-    <div class="header">
-        <div>
-            <div class="brand-title">OrbitAL CYBER F</div>
-            <div class="brand-sub">ECO-S AUTOMATION HUB</div>
+  <div class="app-container">
+    <!-- Хедер -->
+    <header>
+      <div class="brand">
+        <svg class="brand-logo" viewBox="0 0 100 100">
+          <ellipse cx="50" cy="50" rx="42" ry="16" fill="none" stroke="#00f2fe" stroke-width="5" transform="rotate(-30 50 50)" />
+          <ellipse cx="50" cy="50" rx="42" ry="16" fill="none" stroke="#ff0055" stroke-width="5" transform="rotate(30 50 50)" />
+          <circle cx="50" cy="50" r="10" fill="#00f2fe" />
+        </svg>
+        <div class="brand-title">ORBITAL <span>CYBER</span></div>
+      </div>
+      <div class="progress-box">
+        <span class="progress-label" id="progress-text">Сборка: 25%</span>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-bar"></div>
         </div>
-        <div class="status-badge">
-            <div class="pulse"></div>
-            LIVE DEMO
+      </div>
+    </header>
+
+    <!-- ЭКРАН 1: ВЫБОР НИШИ -->
+    <div class="screen active" id="screen-1">
+      <h2 class="screen-title">Соберите своего <span>ИИ-бота</span> за 60 секунд</h2>
+      <p class="screen-subtitle">Шаг 1 из 3: Выберите вашу сферу бизнеса</p>
+
+      <div class="grid-options">
+        <div class="option-card" onclick="selectNiche('beauty', 'Салоны / Клиники / Услуги')">
+          <div class="option-icon">✂️</div>
+          <div class="option-title">Услуги и Клиники</div>
+          <div class="option-desc">Салоны красоты, барбершопы, стоматологии, фитнес</div>
         </div>
+
+        <div class="option-card" onclick="selectNiche('ecommerce', 'E-commerce / Торговля')">
+          <div class="option-icon">🛍️</div>
+          <div class="option-title">E-commerce / Онлайн-магазин</div>
+          <div class="option-desc">Продажа товаров, маркетплейсы, соцсети</div>
+        </div>
+
+        <div class="option-card" onclick="selectNiche('b2b', 'B2B / Консалтинг / Недвижимость')">
+          <div class="option-icon">💼</div>
+          <div class="option-title">B2B / Недвижимость / Авто</div>
+          <div class="option-desc">Высокий чек, сложные консультации, длинные сделки</div>
+        </div>
+      </div>
     </div>
 
-    <!-- COMPARISON -->
-    <div>
-        <div class="section-title">Сравнение эффективности</div>
-        <div class="grid-2">
-            <div class="compare-card bad">
-                <div class="card-head bad">❌ Ручные продажи</div>
-                <ul class="compare-list">
-                    <li>⏱️ Ответ от 20 минут</li>
-                    <li>📉 Слив 40% лидов</li>
-                    <li>🥱 Усталость и ошибки</li>
-                    <li>🌴 Заявки ночью горят</li>
-                </ul>
-            </div>
-            <div class="compare-card good">
-                <div class="card-head good">⚡ OrbitAL AI</div>
-                <ul class="compare-list">
-                    <li>🚀 Ответ за 3 секунды</li>
-                    <li>🎯 Дожим до оплаты</li>
-                    <li>🤖 24/7 без выходных</li>
-                    <li>📊 Авто-CRM контроль</li>
-                </ul>
-            </div>
+    <!-- ЭКРАН 2: ВЫБОР ГЛАВНОЙ БОЛИ -->
+    <div class="screen" id="screen-2">
+      <h2 class="screen-title">Какую задачу <span>поручим боту?</span></h2>
+      <p class="screen-subtitle">Шаг 2 из 3: Выберите главную проблему вашей операционки</p>
+
+      <div class="pain-list">
+        <div class="pain-item" onclick="selectPain('booking', 'Запись клиентов 24/7')">
+          <div class="pain-badge">🌙</div>
+          <div class="pain-info">
+            <h4>Слив заявок в нерабочее время</h4>
+            <p>Клиенты пишут ночью и в выходные, а менеджеры отвечают долго</p>
+          </div>
         </div>
+
+        <div class="pain-item" onclick="selectPain('reviews', 'Ответы на отзывы и частые вопросы')">
+          <div class="pain-badge">⭐</div>
+          <div class="pain-info">
+            <h4>Часы рутины на отзывы и однотипные вопросы</h4>
+            <p>Команда тратит время на банальные консультации вместо продаж</p>
+          </div>
+        </div>
+
+        <div class="pain-item" onclick="selectPain('hr', 'Авто-скрининг и обучение сотрудников')">
+          <div class="pain-badge">👨‍💻</div>
+          <div class="pain-info">
+            <h4>Вопросы от сотрудников и пустые собеседования</h4>
+            <p>Бесконечные стажировки и вопросы «где взять документ?»</p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- CALCULATOR -->
-    <div class="calc-box">
-        <div class="calc-header">
-            <div>
-                <div style="font-weight: 700; font-size: 13px;">Калькулятор потерь</div>
-                <div class="calc-result-title">Упущенная выручка в месяц:</div>
-            </div>
-            <div class="calc-result-value" id="loss-value">472 500 ₽</div>
+    <!-- ЭКРАН 3: ЖИВОЙ СИМУЛЯТОР ДИАЛОГА -->
+    <div class="screen" id="screen-3">
+      <h2 class="screen-title">Тест-драйв: <span>Смотрите бота в деле</span></h2>
+      <p class="screen-subtitle">Шаг 3 из 3: Время 02:40 ночи. Клиент пишет в ваш чат...</p>
+
+      <div class="chat-wrapper">
+        <div class="chat-header">
+          <div class="chat-avatar">AI</div>
+          <div class="chat-user-info">
+            <h5 id="bot-chat-name">ИИ-Ассистент SalesBot</h5>
+            <div class="chat-status"><div class="status-dot"></div> Мгновенный отклик (0.3 сек)</div>
+          </div>
         </div>
 
-        <div class="slider-container">
-            <div class="slider-label">
-                <span>Заявок в день:</span>
-                <span id="leads-count" style="color: var(--cyan); font-family: 'JetBrains Mono';">15 лидов</span>
-            </div>
-            <input type="range" id="leads-slider" min="5" max="100" value="15" oninput="updateCalc()">
+        <div class="chat-box" id="chat-box">
+          <!-- Сообщения будут генерироваться скриптом -->
         </div>
-        <div style="font-size: 10px; color: var(--muted); text-align: center;">*Расчет основан на среднем чеке 3000 ₽ и сливе 35% горячих заявок</div>
+      </div>
+
+      <button class="chat-action-btn" id="sim-btn" onclick="runSimulationNext()">
+        ▶ Запустить реакцию ИИ-бота
+      </button>
     </div>
 
-    <!-- ADVANTAGES -->
-    <div style="display: flex; flex-direction: column; gap: 8px;">
-        <div class="section-title">Возможности платформы</div>
-        <div class="feature-item">
-            <div class="feature-icon">🧠</div>
-            <div><b>ИИ-Продавец:</b> Знает всё о вашем продукте и закрывает в чек.</div>
+    <!-- ЭКРАН 4: ГОТОВАЯ КОНФИГУРАЦИЯ И ОКУПАЕМОСТЬ -->
+    <div class="screen" id="screen-4">
+      <div style="text-align: center;">
+        <div class="urgency-badge">🔥 КОНФИГУРАЦИЯ СОБРАНА И ГОТОВА К ВНЕДРЕНИЮ</div>
+      </div>
+      
+      <h2 class="screen-title">Ваш потенциал: <span>+<span id="calc-result">180 000</span> ₽/мес</span></h2>
+      <p class="screen-subtitle">Прогнозируемый чистый доход от внедрения вашего бота</p>
+
+      <div class="roi-card">
+        <div class="roi-label">Чистая экономия и доп. выручка за 30 дней</div>
+        <div class="roi-amount" id="calc-display-amount">+180 000 ₽</div>
+        <div class="roi-details">
+          <div>
+            <div class="roi-stat-val" id="stat-deals">+12 шт</div>
+            <div class="roi-stat-lbl">Спасенных сделок</div>
+          </div>
+          <div>
+            <div class="roi-stat-val">~65 часов</div>
+            <div class="roi-stat-lbl">Сэкономлено времени</div>
+          </div>
+          <div>
+            <div class="roi-stat-val">0.3 сек</div>
+            <div class="roi-stat-lbl">Скорость ответа</div>
+          </div>
         </div>
-        <div class="feature-item">
-            <div class="feature-icon">📲</div>
-            <div><b>Mini App Интеграция:</b> Автоматический запуск прямо из постов.</div>
+      </div>
+
+      <!-- Ползунки параметров -->
+      <div class="sliders-box">
+        <div class="slider-group">
+          <div class="slider-header">
+            <span>Обращений/заявок в месяц:</span>
+            <span class="slider-val" id="leads-val">300</span>
+          </div>
+          <input type="range" id="leads-range" min="50" max="2000" value="300" step="10" oninput="recalculateROI()">
         </div>
+
+        <div class="slider-group">
+          <div class="slider-header">
+            <span>Средний чек продажи/записи:</span>
+            <span class="slider-val" id="price-val">15 000 ₽</span>
+          </div>
+          <input type="range" id="price-range" min="1000" max="150000" value="15000" step="1000" oninput="recalculateROI()">
+        </div>
+      </div>
+
+      <!-- Призыв к действию -->
+      <div class="cta-group">
+        <a href="https://t.me/upravKAN_bot" target="_blank" class="btn-primary">
+          🚀 Забрать готовое решение в Telegram
+        </a>
+        <a href="https://t.me/order_bots_ai" target="_blank" class="btn-secondary">
+          💬 Получить бесплатный разбор с инженером
+        </a>
+      </div>
     </div>
+  </div>
 
-    <!-- CTA BUTTON -->
-    <a href="https://t.me/order_bots_ai" class="cta-btn">🚀 ЗАПУСТИТЬ АВТОМАТИЗАЦИЮ</a>
+  <script>
+    /* ================= ЛОГИКА ИНТЕРАКТИВНОГО СИМУЛЯТОРА ================= */
+    let userChoice = {
+      niche: '',
+      nicheName: '',
+      pain: '',
+      painName: ''
+    };
 
-    <script>
-        function updateCalc() {
-            const leads = document.getElementById('leads-slider').value;
-            document.getElementById('leads-count').innerText = leads + ' лидов';
-            
-            // Формула: Лиды * 30 дней * 35% потерь * 3000р чек
-            const loss = Math.round(leads * 30 * 0.35 * 3000);
-            document.getElementById('loss-value').innerText = loss.toLocaleString('ru-RU') + ' ₽';
+    let simStep = 0;
+
+    function goToScreen(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+    }
+
+    function updateProgress(percent, label) {
+      document.getElementById('progress-bar').style.width = percent + '%';
+      document.getElementById('progress-text').textContent = 'Сборка: ' + percent + '%';
+    }
+
+    function selectNiche(nicheKey, nicheName) {
+      userChoice.niche = nicheKey;
+      userChoice.nicheName = nicheName;
+      updateProgress(50);
+      goToScreen('screen-2');
+    }
+
+    function selectPain(painKey, painName) {
+      userChoice.pain = painKey;
+      userChoice.painName = painName;
+      updateProgress(80);
+      initChatSimulation();
+      goToScreen('screen-3');
+    }
+
+    /* === СИМУЛЯТОР ДИАЛОГА === */
+    function initChatSimulation() {
+      const chatBox = document.getElementById('chat-box');
+      chatBox.innerHTML = '';
+      simStep = 0;
+
+      let clientMsgText = "Здравствуйте! Вы сейчас работаете? Хочу записаться на завтра.";
+      if (userChoice.niche === 'ecommerce') {
+        clientMsgText = "Добрый вечер! Изделие есть в наличии? Как оформить доставку?";
+      } else if (userChoice.niche === 'b2b') {
+        clientMsgText = "Здравствуйте. Нужен расчет стоимости проекта. Сколько стоит внедрение?";
+      }
+
+      // Первое сообщение клиента
+      setTimeout(() => {
+        appendMessage('client', clientMsgText, '02:41');
+      }, 400);
+    }
+
+    function runSimulationNext() {
+      const simBtn = document.getElementById('sim-btn');
+
+      if (simStep === 0) {
+        simBtn.disabled = true;
+        simBtn.textContent = 'ИИ генерирует ответ...';
+
+        let botReply = "Приветствую! 👋 Да, мы на связи 24/7. На завтра есть свободное окно на 15:00 и 18:30. Какой слот забронировать за вами?";
+        if (userChoice.niche === 'ecommerce') {
+          botReply = "Здравствуйте! 📦 Товар в наличии. При оформлении прямо сейчас — скидка 5% и бесплатная доставка! Отправить ссылку на бронь?";
+        } else if (userChoice.niche === 'b2b') {
+          botReply = "Здравствуйте! Подготовил экспресс-смету. Ответьте на 2 вопроса, и я сразу отправлю КП с расчетом в этот чат.";
         }
 
-        // Автозапуск расчета при открытии
-        document.addEventListener('DOMContentLoaded', updateCalc);
-    </script>
+        setTimeout(() => {
+          appendMessage('bot', botReply, '02:41');
+          simBtn.disabled = false;
+          simBtn.textContent = '👍 Клиент подтверждает запись';
+          simStep = 1;
+        }, 800);
+
+      } else if (simStep === 1) {
+        appendMessage('client', 'Отлично, бронируйте на 18:30! Спасибо за быстрый ответ!', '02:42');
+
+        setTimeout(() => {
+          appendMessage('bot', '✅ Заявка принята! Подтверждение отправлено. Сделка успешно зафиксирована в CRM.', '02:42');
+          simBtn.textContent = '✨ Сделка закрыта! Посмотреть итоговый расчет';
+          simBtn.onclick = () => {
+            updateProgress(100);
+            recalculateROI();
+            goToScreen('screen-4');
+          };
+        }, 600);
+      }
+    }
+
+    function appendMessage(sender, text, time) {
+      const chatBox = document.getElementById('chat-box');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = `msg ${sender}`;
+      msgDiv.innerHTML = `${text}<div class="msg-time">${time}</div>`;
+      chatBox.appendChild(msgDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    /* === ДИНАМИЧЕСКИЙ КАЛЬКУЛЯТОР === */
+    function recalculateROI() {
+      const leads = parseInt(document.getElementById('leads-range').value, 10);
+      const price = parseInt(document.getElementById('price-range').value, 10);
+
+      document.getElementById('leads-val').textContent = leads.toLocaleString('ru-RU');
+      document.getElementById('price-val').textContent = price.toLocaleString('ru-RU') + ' ₽';
+
+      // Конверсия: спасение порядка 4% от упущенных горячих обращений
+      const savedDeals = Math.max(1, Math.round(leads * 0.04));
+      const totalSavedRevenue = savedDeals * price;
+
+      document.getElementById('calc-display-amount').textContent = '+' + totalSavedRevenue.toLocaleString('ru-RU') + ' ₽';
+      document.getElementById('calc-result').textContent = totalSavedRevenue.toLocaleString('ru-RU');
+      document.getElementById('stat-deals').textContent = '+' + savedDeals + ' шт';
+    }
+  </script>
 </body>
 </html>
