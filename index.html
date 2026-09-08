@@ -104,6 +104,7 @@
         input[type=range] {
             width: 100%;
             -webkit-appearance: none;
+            appearance: none;
             background: #1f2937;
             height: 6px;
             border-radius: 3px;
@@ -203,7 +204,7 @@
                 <div style="font-weight: 700; font-size: 13px;">Калькулятор потерь</div>
                 <div class="calc-result-title">Упущенная выручка в месяц:</div>
             </div>
-            <div class="calc-result-value" id="loss-value">54,000 ₽</div>
+            <div class="calc-result-value" id="loss-value">472 500 ₽</div>
         </div>
 
         <div class="slider-container">
@@ -230,7 +231,7 @@
     </div>
 
     <!-- CTA BUTTON -->
-    <a href="https://t.me/GamboAI_bot" class="cta-btn">🚀 ЗАПУСТИТЬ АВТОМАТИЗАЦИЮ</a>
+    <a href="https://t.me/order_bots_ai" class="cta-btn">🚀 ЗАПУСТИТЬ АВТОМАТИЗАЦИЮ</a>
 
     <script>
         function updateCalc() {
@@ -241,6 +242,9 @@
             const loss = Math.round(leads * 30 * 0.35 * 3000);
             document.getElementById('loss-value').innerText = loss.toLocaleString('ru-RU') + ' ₽';
         }
+
+        // Автозапуск расчета при открытии
+        document.addEventListener('DOMContentLoaded', updateCalc);
     </script>
 </body>
 </html>
