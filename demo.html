@@ -1,1 +1,246 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OrbitAL CYBER F // AI Presentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #090d16;
+            --card: #111827;
+            --border: #1f2937;
+            --accent: #3b82f6;
+            --cyan: #06b6d4;
+            --danger: #ef4444;
+            --success: #10b981;
+            --text: #f3f4f6;
+            --muted: #9ca3af;
+        }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            background-image: radial-gradient(circle at 50% 0%, rgba(6, 182, 212, 0.12) 0%, transparent 60%);
+        }
+
+        /* Top Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .brand-title { font-size: 14px; font-weight: 800; letter-spacing: 0.5px; }
+        .brand-sub { font-size: 10px; color: var(--cyan); font-family: 'JetBrains Mono', monospace; }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .pulse { width: 6px; height: 6px; background: var(--success); border-radius: 50%; box-shadow: 0 0 8px var(--success); }
+
+        /* Comparison Section */
+        .section-title { font-size: 12px; text-transform: uppercase; color: var(--muted); font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+        .compare-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .compare-card.bad { border-color: rgba(239, 68, 68, 0.3); background: linear-gradient(180deg, rgba(239, 68, 68, 0.05) 0%, var(--card) 100%); }
+        .compare-card.good { border-color: rgba(6, 182, 212, 0.3); background: linear-gradient(180deg, rgba(6, 182, 212, 0.05) 0%, var(--card) 100%); }
+
+        .card-head { font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+        .card-head.bad { color: var(--danger); }
+        .card-head.good { color: var(--cyan); }
+
+        .compare-list { list-style: none; font-size: 11px; color: #d1d5db; display: flex; flex-direction: column; gap: 6px; }
+        .compare-list li { display: flex; align-items: flex-start; gap: 4px; }
+
+        /* Calculator Section */
+        .calc-box {
+            background: var(--card);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .calc-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .calc-result-title { font-size: 11px; color: var(--muted); }
+        .calc-result-value { font-size: 20px; font-weight: 800; color: var(--danger); font-family: 'JetBrains Mono', monospace; }
+
+        .slider-container { margin: 16px 0 8px 0; }
+        .slider-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px; font-weight: 600; }
+        
+        input[type=range] {
+            width: 100%;
+            -webkit-appearance: none;
+            background: #1f2937;
+            height: 6px;
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--cyan);
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--cyan);
+        }
+
+        /* Features List */
+        .feature-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+        }
+
+        .feature-icon {
+            width: 28px; height: 28px; background: rgba(59, 130, 246, 0.15);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            color: var(--accent); font-size: 14px; flex-shrink: 0;
+        }
+
+        /* CTA Button */
+        .cta-btn {
+            background: linear-gradient(135deg, var(--accent), var(--cyan));
+            color: #fff;
+            text-align: center;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+            display: block;
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+            letter-spacing: 0.5px;
+            margin-top: 8px;
+        }
+
+        .cta-btn:active { transform: scale(0.98); }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div>
+            <div class="brand-title">OrbitAL CYBER F</div>
+            <div class="brand-sub">ECO-S AUTOMATION HUB</div>
+        </div>
+        <div class="status-badge">
+            <div class="pulse"></div>
+            LIVE DEMO
+        </div>
+    </div>
+
+    <!-- COMPARISON -->
+    <div>
+        <div class="section-title">Сравнение эффективности</div>
+        <div class="grid-2">
+            <div class="compare-card bad">
+                <div class="card-head bad">❌ Ручные продажи</div>
+                <ul class="compare-list">
+                    <li>⏱️ Ответ от 20 минут</li>
+                    <li>📉 Слив 40% лидов</li>
+                    <li>🥱 Усталость и ошибки</li>
+                    <li>🌴 Заявки ночью горят</li>
+                </ul>
+            </div>
+            <div class="compare-card good">
+                <div class="card-head good">⚡ OrbitAL AI</div>
+                <ul class="compare-list">
+                    <li>🚀 Ответ за 3 секунды</li>
+                    <li>🎯 Дожим до оплаты</li>
+                    <li>🤖 24/7 без выходных</li>
+                    <li>📊 Авто-CRM контроль</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- CALCULATOR -->
+    <div class="calc-box">
+        <div class="calc-header">
+            <div>
+                <div style="font-weight: 700; font-size: 13px;">Калькулятор потерь</div>
+                <div class="calc-result-title">Упущенная выручка в месяц:</div>
+            </div>
+            <div class="calc-result-value" id="loss-value">54,000 ₽</div>
+        </div>
+
+        <div class="slider-container">
+            <div class="slider-label">
+                <span>Заявок в день:</span>
+                <span id="leads-count" style="color: var(--cyan); font-family: 'JetBrains Mono';">15 лидов</span>
+            </div>
+            <input type="range" id="leads-slider" min="5" max="100" value="15" oninput="updateCalc()">
+        </div>
+        <div style="font-size: 10px; color: var(--muted); text-align: center;">*Расчет основан на среднем чеке 3000 ₽ и сливе 35% горячих заявок</div>
+    </div>
+
+    <!-- ADVANTAGES -->
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div class="section-title">Возможности платформы</div>
+        <div class="feature-item">
+            <div class="feature-icon">🧠</div>
+            <div><b>ИИ-Продавец:</b> Знает всё о вашем продукте и закрывает в чек.</div>
+        </div>
+        <div class="feature-item">
+            <div class="feature-icon">📲</div>
+            <div><b>Mini App Интеграция:</b> Автоматический запуск прямо из постов.</div>
+        </div>
+    </div>
+
+    <!-- CTA BUTTON -->
+    <a href="https://t.me/GamboAI_bot" class="cta-btn">🚀 ЗАПУСТИТЬ АВТОМАТИЗАЦИЮ</a>
+
+    <script>
+        function updateCalc() {
+            const leads = document.getElementById('leads-slider').value;
+            document.getElementById('leads-count').innerText = leads + ' лидов';
+            
+            // Формула: Лиды * 30 дней * 35% потерь * 3000р чек
+            const loss = Math.round(leads * 30 * 0.35 * 3000);
+            document.getElementById('loss-value').innerText = loss.toLocaleString('ru-RU') + ' ₽';
+        }
+    </script>
+</body>
+</html>
